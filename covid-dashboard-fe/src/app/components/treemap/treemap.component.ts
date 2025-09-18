@@ -4,7 +4,8 @@ import { CovidService } from '../../services/covid.service';
 
 @Component({
     selector: 'app-treemap',
-    template: `<plotly-plot [data]="data" [layout]="layout"></plotly-plot>`,
+    template: '',
+    // template: `<plotly-plot [data]="data" [layout]="layout"></plotly-plot>`,
     standalone: false
 })
 export class TreemapComponent implements OnInit {

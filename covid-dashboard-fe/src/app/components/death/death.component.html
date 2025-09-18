@@ -1,0 +1,12 @@
+<p>death works!</p>
+<p>COVID-19 Deaths by Country</p>
+
+<ejs-treemap
+  id="death-treemap"
+  style="display:block; height:500px;"
+  [dataSource]="data"
+  weightValuePath="Deaths"
+  [leafItemSettings]="leafItemSettings"
+  rangeColorValuePath="Deaths"
+  [tooltipSettings]="tooltipSettings">
+</ejs-treemap>
