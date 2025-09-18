@@ -1,0 +1,11 @@
+<p>COVID-19 Confirmed Cases by Country</p>
+
+<ejs-treemap
+  id="confirmed-treemap"
+  style="display:block; height:500px;"
+  [dataSource]="data"
+  weightValuePath="Confirmed"
+  [leafItemSettings]="leafItemSettings"
+  rangeColorValuePath="Confirmed"
+  [tooltipSettings]="tooltipSettings">
+</ejs-treemap>

@@ -1,0 +1,11 @@
+<p>COVID-19 Recovered Cases by Country</p>
+
+<ejs-treemap
+  id="recovered-treemap"
+  style="display:block; height:500px;"
+  [dataSource]="data"
+  weightValuePath="Recovered"
+  [leafItemSettings]="leafItemSettings"
+  rangeColorValuePath="Recovered"
+  [tooltipSettings]="tooltipSettings">
+</ejs-treemap>

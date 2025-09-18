@@ -1,6 +1,6 @@
 // src/app/services/covid.service.ts
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 export interface CovidData {
@@ -15,7 +15,7 @@ export interface CovidData {
 }
 @Injectable({ providedIn: 'root' })
 export class CovidService {
-  private baseUrl = 'https://localhost:5001/odata'; // backend ASP.NET Core OData
+  private baseUrl = 'https://localhost:5001/api/CovidData'; // backend ASP.NET Core OData
 
   constructor(private http: HttpClient) {}
 
