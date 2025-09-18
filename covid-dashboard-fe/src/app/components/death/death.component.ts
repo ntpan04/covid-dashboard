@@ -3,14 +3,14 @@ import { TreeMapModule } from '@syncfusion/ej2-angular-treemap';
 import { CovidData, CovidService } from '../../services/covid.service';
 
 @Component({
-  standalone: true,  
+  standalone: true,
   selector: 'app-death',
   imports: [TreeMapModule],
   templateUrl: './death.component.html',
   styleUrls: ['./death.component.scss']
 })
 export class DeathComponent implements OnInit {
-  public data: CovidData[] = [];
+  public data: any[] = [];
   public leafItemSettings: any;
   public tooltipSettings: any;
 
@@ -18,18 +18,24 @@ export class DeathComponent implements OnInit {
 
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
-      // Chỉ lấy 1 record cho mỗi country nếu có nhiều Province
+      // Chỉ giữ lại record có số ca tử vong lớn nhất cho mỗi province
       const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
         if (!provinceMap[item.province] || item.deaths > provinceMap[item.province].deaths) {
           provinceMap[item.province] = item;
         }
-
       });
-      this.data = Object.values(provinceMap);
 
+      // Tính thêm deathRate %
+      this.data = Object.values(provinceMap).map(item => ({
+        ...item,
+        deathRate: item.confirmed > 0 ? ((item.deaths / item.confirmed) * 100).toFixed(2) : '0'
+      }));
+
+      // Label trực tiếp trong từng ô
       this.leafItemSettings = {
         labelPath: 'province',
+        labelFormat: '${province}\nDeaths: ${deaths}\n(${deathRate}%)',
         colorValuePath: 'deaths',
         colorMapping: [
           { from: 0, to: 1000, color: '#ade8f4' },
@@ -39,9 +45,10 @@ export class DeathComponent implements OnInit {
         ]
       };
 
+      // Tooltip vẫn giữ để xem chi tiết
       this.tooltipSettings = {
         visible: true,
-        format: '${province}: ${deaths} deaths'
+        format: '${country} - ${province}<br/>Confirmed: ${confirmed}<br/>Deaths: ${deaths}<br/>Recovered: ${recovered}<br/>Active: ${active}<br/>Death Rate: ${deathRate}%'
       };
     });
   }

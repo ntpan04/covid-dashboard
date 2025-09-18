@@ -10,7 +10,7 @@ import { CovidData, CovidService } from '../../services/covid.service';
   styleUrls: ['./recovered.component.scss']
 })
 export class RecoveredComponent implements OnInit {
-  public data: CovidData[] = [];
+  public data: any[] = [];
   public leafItemSettings: any;
   public tooltipSettings: any;
 
@@ -18,18 +18,28 @@ export class RecoveredComponent implements OnInit {
 
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
-      // Chỉ lấy 1 record cho mỗi country (province có Recovered cao nhất)
+      // Chỉ lấy 1 record cho mỗi province (province có Recovered cao nhất)
       const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
         if (!provinceMap[item.province] || item.recovered > provinceMap[item.province].recovered) {
           provinceMap[item.province] = item;
         }
-
       });
-      this.data = Object.values(provinceMap);
+
+      const list = Object.values(provinceMap);
+
+      // Tính tổng recovered để làm % share
+      const totalRecovered = list.reduce((sum, item) => sum + item.recovered, 0);
+
+      // Gắn thêm tỷ lệ %
+      this.data = list.map(item => ({
+        ...item,
+        recoveredRate: totalRecovered > 0 ? ((item.recovered / totalRecovered) * 100).toFixed(2) : '0'
+      }));
 
       this.leafItemSettings = {
         labelPath: 'province',
+        labelFormat: '${province}\n ${recovered}\n(${recoveredRate}%)',
         colorValuePath: 'recovered',
         colorMapping: [
           { from: 0, to: 1000, color: '#f1f8e9' },
@@ -41,7 +51,7 @@ export class RecoveredComponent implements OnInit {
 
       this.tooltipSettings = {
         visible: true,
-        format: '${province}: ${recovered} recovered cases'
+        format: '${country} - ${province}<br/>Confirmed: ${confirmed}<br/>Deaths: ${deaths}<br/>Recovered: ${recovered}<br/>Active: ${active}<br/>Recovered Share: ${recoveredRate}%'
       };
     });
   }
