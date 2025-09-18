@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { CovidService } from '../../services/covid.service';
 
 @Component({
-  selector: 'app-treemap',
-  template: `<plotly-plot [data]="data" [layout]="layout"></plotly-plot>`
+    selector: 'app-treemap',
+    template: `<plotly-plot [data]="data" [layout]="layout"></plotly-plot>`,
+    standalone: false
 })
 export class TreemapComponent implements OnInit {
   data: any;

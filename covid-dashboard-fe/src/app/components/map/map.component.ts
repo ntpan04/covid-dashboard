@@ -4,8 +4,9 @@ import * as L from 'leaflet';
 import { CovidService } from '../../services/covid.service';
 
 @Component({
-  selector: 'app-map',
-  template: `<div id="map" style="height:400px;"></div>`
+    selector: 'app-map',
+    template: `<div id="map" style="height:400px;"></div>`,
+    standalone: false
 })
 export class MapComponent implements OnInit {
   constructor(private covidService: CovidService) {}

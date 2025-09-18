@@ -4,8 +4,9 @@ import { CovidService } from '../../services/covid.service';
 import { Chart } from 'chart.js/auto';
 
 @Component({
-  selector: 'app-trend-chart',
-  template: `<canvas id="trendChart"></canvas>`
+    selector: 'app-trend-chart',
+    template: `<canvas id="trendChart"></canvas>`,
+    standalone: false
 })
 export class TrendChartComponent implements OnInit {
   constructor(private covidService: CovidService) {}
