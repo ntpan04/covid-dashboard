@@ -19,17 +19,18 @@ export class ActiveComponent implements OnInit {
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
       // Chỉ lấy 1 record cho mỗi country (province có Active cao nhất)
-      const countryMap: Record<string, CovidData> = {};
+      const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
-        if (!countryMap[item.Country] || item.Active > countryMap[item.Country].Active) {
-          countryMap[item.Country] = item;
+        if (!provinceMap[item.province] || item.active > provinceMap[item.province].active) {
+          provinceMap[item.province] = item;
         }
+
       });
-      this.data = Object.values(countryMap);
+      this.data = Object.values(provinceMap);
 
       this.leafItemSettings = {
-        labelPath: 'Country',
-        colorValuePath: 'Active',
+        labelPath: 'province',
+        colorValuePath: 'active',
         colorMapping: [
           { from: 0, to: 1000, color: '#e0f7fa' },
           { from: 1001, to: 10000, color: '#80deea' },
@@ -40,7 +41,7 @@ export class ActiveComponent implements OnInit {
 
       this.tooltipSettings = {
         visible: true,
-        format: '${Country}: ${Active} active cases'
+        format: '${province}: ${active} active cases'
       };
     });
   }

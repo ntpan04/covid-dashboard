@@ -19,17 +19,18 @@ export class RecoveredComponent implements OnInit {
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
       // Chỉ lấy 1 record cho mỗi country (province có Recovered cao nhất)
-      const countryMap: Record<string, CovidData> = {};
+      const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
-        if (!countryMap[item.Country] || item.Recovered > countryMap[item.Country].Recovered) {
-          countryMap[item.Country] = item;
+        if (!provinceMap[item.province] || item.recovered > provinceMap[item.province].recovered) {
+          provinceMap[item.province] = item;
         }
+
       });
-      this.data = Object.values(countryMap);
+      this.data = Object.values(provinceMap);
 
       this.leafItemSettings = {
-        labelPath: 'Country',
-        colorValuePath: 'Recovered',
+        labelPath: 'province',
+        colorValuePath: 'recovered',
         colorMapping: [
           { from: 0, to: 1000, color: '#f1f8e9' },
           { from: 1001, to: 10000, color: '#aed581' },
@@ -40,7 +41,7 @@ export class RecoveredComponent implements OnInit {
 
       this.tooltipSettings = {
         visible: true,
-        format: '${Country}: ${Recovered} recovered cases'
+        format: '${province}: ${recovered} recovered cases'
       };
     });
   }

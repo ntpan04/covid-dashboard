@@ -1,2 +1,7 @@
 <router-outlet></router-outlet>
-<app-death></app-death>
+<nav>
+  <button [routerLink]="['/death']">Deaths</button>
+  <button [routerLink]="['/active']">Active</button>
+  <button [routerLink]="['/confirmed']">Confirmed</button>
+  <button [routerLink]="['/recovered']">Recovered</button>
+</nav>

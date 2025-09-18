@@ -4,25 +4,24 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 export interface CovidData {
-  Id: number;
-  Country: string;
-  Province: string;
-  Confirmed: number;
-  Deaths: number;
-  Recovered: number;
-  Active: number;
-  Date: string;
+  id: number;
+  country: string;
+  province: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  active: number;
+  date: string; 
 }
 @Injectable({ providedIn: 'root' })
 export class CovidService {
-  private baseUrl = 'https://localhost:5001/api/CovidData'; // backend ASP.NET Core OData
+  private baseUrl = 'https://localhost:5001/api'; // backend ASP.NET Core OData
 
   constructor(private http: HttpClient) {}
 
     // Lấy tất cả dữ liệu CovidData
   getAllData(): Observable<CovidData[]> {
-    return this.http.get<{ value: CovidData[] }>(`${this.baseUrl}/CovidData`)
-      .pipe(map(res => res.value));
+    return this.http.get<CovidData[]>(`${this.baseUrl}/CovidData`);
   }
 
   // Lấy top N quốc gia theo số ca

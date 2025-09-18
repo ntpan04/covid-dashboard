@@ -19,17 +19,18 @@ export class ConfirmedComponent implements OnInit {
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
       // Chỉ lấy 1 record cho mỗi country (chọn province có số Confirmed lớn nhất)
-      const countryMap: Record<string, CovidData> = {};
+      const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
-        if (!countryMap[item.Country] || item.Confirmed > countryMap[item.Country].Confirmed) {
-          countryMap[item.Country] = item;
+        if (!provinceMap[item.province] || item.confirmed > provinceMap[item.province].confirmed) {
+          provinceMap[item.province] = item;
         }
       });
-      this.data = Object.values(countryMap);
+      this.data = Object.values(provinceMap);
+
 
       this.leafItemSettings = {
-        labelPath: 'Country',
-        colorValuePath: 'Confirmed',
+        labelPath: 'province',
+        colorValuePath: 'confirmed',
         colorMapping: [
           { from: 0, to: 10000, color: '#d4f1f4' },
           { from: 10001, to: 100000, color: '#75e6da' },
@@ -40,7 +41,7 @@ export class ConfirmedComponent implements OnInit {
 
       this.tooltipSettings = {
         visible: true,
-        format: '${Country}: ${Confirmed} confirmed cases'
+        format: '${province}: ${confirmed} confirmed cases'
       };
     });
   }

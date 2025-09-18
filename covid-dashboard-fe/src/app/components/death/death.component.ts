@@ -19,17 +19,18 @@ export class DeathComponent implements OnInit {
   ngOnInit() {
     this.covidService.getAllData().subscribe(res => {
       // Chỉ lấy 1 record cho mỗi country nếu có nhiều Province
-      const countryMap: Record<string, CovidData> = {};
+      const provinceMap: Record<string, CovidData> = {};
       res.forEach(item => {
-        if (!countryMap[item.Country] || item.Deaths > countryMap[item.Country].Deaths) {
-          countryMap[item.Country] = item;
+        if (!provinceMap[item.province] || item.deaths > provinceMap[item.province].deaths) {
+          provinceMap[item.province] = item;
         }
+
       });
-      this.data = Object.values(countryMap);
+      this.data = Object.values(provinceMap);
 
       this.leafItemSettings = {
-        labelPath: 'Country',
-        colorValuePath: 'Deaths',
+        labelPath: 'province',
+        colorValuePath: 'deaths',
         colorMapping: [
           { from: 0, to: 1000, color: '#ade8f4' },
           { from: 1001, to: 10000, color: '#48cae4' },
@@ -40,7 +41,7 @@ export class DeathComponent implements OnInit {
 
       this.tooltipSettings = {
         visible: true,
-        format: '${Country}: ${Deaths} deaths'
+        format: '${province}: ${deaths} deaths'
       };
     });
   }
